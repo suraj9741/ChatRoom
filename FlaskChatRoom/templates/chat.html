@@ -50,6 +50,13 @@
         })
     };
 
+    window.onunload = function(){
+        socket.emit('leave_room', {
+            username: "{{ username }}",
+            room: "{{ room }}"
+        })
+    };
+
     socket.on('receive_message', function (data) {
         console.log(data);
         const newNode = document.createElement('div');

@@ -6,10 +6,11 @@
 </head>
 <body>
 <h1>My Chat App</h1>
+<h3>Hi <b id="name">{{ current_user.email }}</b></h3>
 <form action="/chat">
     <div>
         <label>Enter your username:</label>
-        <input type="text" name="username">
+        <input type="text" id="myText" name="username" oninput="myFunction()">
     </div>
     <div>
         <label>Enter room id:</label>

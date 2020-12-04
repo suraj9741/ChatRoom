@@ -9,12 +9,8 @@
 <h3>Hi <b id="name">{{ current_user.email }}</b></h3>
 <form action="/chat">
     <div>
-        <label>Enter your username:</label>
-        <input type="text" id="myText" name="username" oninput="myFunction()">
-    </div>
-    <div>
-        <label>Enter room id:</label>
-        <input type="text" name="room">
+        <label>Enter room id(between 1 and 10):</label>
+        <input type="number" name="room" min="1" max="10">
     </div>
     <button type="submit">Submit</button>
 </form>

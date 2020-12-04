@@ -7,7 +7,7 @@
 <body>
 <h1>Welcome to chat room {{ room }}</h1>
 
-<div id="messages"></div>
+<div id="messages"></div><div id="time"></div>
 
 <form id="message_input_form">
     <input type="text" id="message_input" placeholder="Enter your message here">
@@ -35,6 +35,7 @@
                 socket.emit('send_message', {
                     username: "{{ username }}",
                     room: "{{ room }}",
+                    email: "{{ email }}",
                     message: message
                 })
             }
@@ -59,6 +60,8 @@
 
     socket.on('receive_message', function (data) {
         console.log(data);
+        var time = new Date();
+
         const newNode = document.createElement('div');
         newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message}`;
         document.getElementById('messages').appendChild(newNode);
@@ -78,6 +81,12 @@
         const newNode = document.createElement('div');
         newNode.innerHTML = `<b>${data.username}</b> has left the room`;
         document.getElementById('messages').appendChild(newNode);
+    });
+
+    socket.on('time', function(){
+        var dt = new Date();
+        var sql = (dt.getFullYear())+"-"+(("0"+(dt.getMonth()+1)).slice(-2))+"-"+(("0"+dt.getDate()).slice(-2))+" "+(("0"+dt.getHours()).slice(-2))+":"+(("0"+dt.getMinutes()).slice(-2))+":"+(("0"+dt.getSeconds()).slice(-2))
+        document.getElementById("time").innerHTML = sql;
     });
 </script>
 <script>

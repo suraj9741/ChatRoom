@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_socketio import SocketIO, join_room, leave_room
 
-from database import get_user, check_user
+from database import get_user, check_user, save_user, save_message
 
 app = Flask(__name__)
 # declare secret key
@@ -32,13 +32,24 @@ def login():
         user = get_user(email)
         print(user)
         if check_user(email, password_input):
-            print('TTTTTTT')
             login_user(user)
             return redirect(url_for('home'))
         else:
-            print('FFFFFFF')
             message = 'Failed to login!'
     return render_template('login.html', message=message)
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+
+    message = ''
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        message = save_user(username, email, password)
+        if message == True:
+            return redirect(url_for('login'))
+    return render_template('signup.html', message=message)
 
 @app.route("/logout")
 @login_required
@@ -50,11 +61,14 @@ def logout():
 @login_required
 def chat():
     # request.args is library that contain url and data
-    username = request.args.get('username')
+    # username = request.args.get('username')
     room = request.args.get('room')
+    username = current_user.email
+    email = current_user.name
+    print(email)
 
     if username and room:
-        return render_template('chat.html', username=username, room=room)
+        return render_template('chat.html', username=username, room=room, email=email)
     else:
         return redirect(url_for('home'))
 
@@ -64,11 +78,13 @@ def handle_join_room_event(data):
     app.logger.info("{} has joined the room {}".format(data['username'], data['room']))
     join_room(data['room'])
     socketio.emit('join_room_announcement', data, room=data['room'])
+    #socketio.emit('time')
 
 
 @socketio.on('send_message')
 def handle_send_message_event(data):
-    app.logger.info("{} has sent message to the room {}: {}".format(data['username'], data['room'], data['message']))
+    app.logger.info("{} has sent message to the room {}: {}  email: {}".format(data['username'], data['room'], data['message'], data['email']))
+    save_message(int(data['room']), data['email'], data['username'], data['message'])
     socketio.emit('receive_message', data, room=data['room'])
 
 

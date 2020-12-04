@@ -13,6 +13,7 @@
     <input type="text" id="message_input" placeholder="Enter your message here">
     <button type="submit">Send</button>
 </form>
+<a href="/logout">Logout</a>
 </body>
 <!--client side integration-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
@@ -60,10 +61,8 @@
 
     socket.on('receive_message', function (data) {
         console.log(data);
-        var time = new Date();
-
         const newNode = document.createElement('div');
-        newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message}`;
+        newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message} &nbsp;${data.dt_string}`;
         document.getElementById('messages').appendChild(newNode);
     });
 

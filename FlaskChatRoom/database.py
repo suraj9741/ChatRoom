@@ -36,28 +36,34 @@ def check_user(email, password):
         return False
 
 
-def save_message(roomid, email, name, message):
-    switcher = {
-        1:
-            cursor.execute("INSERT INTO room1 (name, email, message) VALUES ( %s, %s, %s);", (name, email, message)),
-        2:
-            cursor.execute("INSERT INTO room2 (name, email, message) VALUES ( %s, %s, %s);", (name, email, message)),
-        3:
-            cursor.execute("INSERT INTO room3 (name, email, message) VALUES ( %s, %s, %s);", (name, email, message)),
-        4:
-            cursor.execute("INSERT INTO room4 (name, email, message) VALUES ( %s, %s, %s);", (name, email, message)),
-        5:
-            cursor.execute("INSERT INTO room5 (name, email, message) VALUES ( %s, %s, %s);", (name, email, message)),
-        6:
-            cursor.execute("INSERT INTO room6 (name, email, message) VALUES ( %s, %s, %s);", (name, email, message)),
-        7:
-            cursor.execute("INSERT INTO room7 (name, email, message) VALUES ( %s, %s, %s);", (name, email, message)),
-        8:
-            cursor.execute("INSERT INTO room8 (name, email, message) VALUES ( %s, %s, %s);", (name, email, message)),
-        9:
-            cursor.execute("INSERT INTO room9 (name, email, message) VALUES ( %s, %s, %s);", (name, email, message)),
-        10:
-            cursor.execute("INSERT INTO room10 (name, email, message) VALUES ( %s, %s, %s);", (name, email, message)),
-    }
-    mydb.commit()
+def save(roomid):
 
+    switcher = {
+        1: "INSERT INTO room1 (name, email, message) VALUES ( %s, %s, %s);",
+
+        2: "INSERT INTO room2 (name, email, message) VALUES ( %s, %s, %s);",
+
+        3: "INSERT INTO room3 (name, email, message) VALUES ( %s, %s, %s);",
+
+        4: "INSERT INTO room3 (name, email, message) VALUES ( %s, %s, %s);",
+
+        5: "INSERT INTO room3 (name, email, message) VALUES ( %s, %s, %s);",
+
+        6: "INSERT INTO room3 (name, email, message) VALUES ( %s, %s, %s);",
+
+        7: "INSERT INTO room3 (name, email, message) VALUES ( %s, %s, %s);",
+
+        8: "INSERT INTO room3 (name, email, message) VALUES ( %s, %s, %s);",
+
+        9: "INSERT INTO room3 (name, email, message) VALUES ( %s, %s, %s);",
+
+        10: "INSERT INTO room3 (name, email, message) VALUES ( %s, %s, %s);"
+    }
+    return switcher.get(roomid, "nothing")
+
+
+def save_message(roomid, email, name, message):
+    data = save(roomid)
+    value = (name, email, message)
+    cursor.execute(data, value)
+    mydb.commit()

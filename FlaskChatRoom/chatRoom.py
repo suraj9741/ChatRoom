@@ -3,7 +3,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_socketio import SocketIO, join_room, leave_room
-
+from datetime import datetime
 from database import get_user, check_user, save_user, save_message
 
 app = Flask(__name__)
@@ -85,6 +85,9 @@ def handle_join_room_event(data):
 def handle_send_message_event(data):
     app.logger.info("{} has sent message to the room {}: {}  email: {}".format(data['username'], data['room'], data['message'], data['email']))
     save_message(int(data['room']), data['email'], data['username'], data['message'])
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    data['dt_string'] = dt_string
     socketio.emit('receive_message', data, room=data['room'])
 
 

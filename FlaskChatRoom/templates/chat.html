@@ -5,15 +5,25 @@
     <title>My Chat App</title>
 </head>
 <body>
-<h1>Welcome to chat room {{ room }}</h1>
-
-<div id="messages"></div><div id="time"></div>
-
-<form id="message_input_form">
-    <input type="text" id="message_input" placeholder="Enter your message here">
-    <button type="submit">Send</button>
-</form>
-<a href="/logout">Logout</a>
+<center>
+    <table>
+        <tr>
+            <th colspan="2"><h1>Welcome to chat room {{ room }}</h1></th>
+        </tr>
+        <tr>
+            <td colspan="2"><div id="messages"></div></td>
+        </tr>
+        <tr colspan="2">
+            <form id="message_input_form">
+                <td><input type="text" id="message_input" placeholder="Enter your message here"></td>
+                <td><button type="submit">Send</button></td>
+            </form>
+        </tr>
+        <tr>
+            <td colspan="2"><a href="/logout">Logout</a></td>
+        </tr>
+    </table>
+</center>
 </body>
 <!--client side integration-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
@@ -62,7 +72,7 @@
     socket.on('receive_message', function (data) {
         console.log(data);
         const newNode = document.createElement('div');
-        newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message} &nbsp;${data.dt_string}`;
+        newNode.innerHTML = `<b>${data.username}:&nbsp;</b> ${data.message}&nbsp;${data.dt_string}`;
         document.getElementById('messages').appendChild(newNode);
     });
 

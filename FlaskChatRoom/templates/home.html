@@ -5,15 +5,17 @@
     <title>My Chat App</title>
 </head>
 <body>
-<h1>My Chat App</h1>
-<h3>Hi <b id="name">{{ current_user.email }}</b></h3>
-<form action="/chat">
-    <div>
-        <label>Enter room id(between 1 and 10):</label>
-        <input type="number" name="room" min="1" max="10">
-    </div>
-    <button type="submit">Submit</button>
-</form>
-<a href="/logout">Logout</a>
+<center>
+    <h1>My Chat App</h1>
+    <h3>Hi <b id="name">{{ current_user.email }}</b></h3>
+    <form action="/chat">
+        <div>
+            <label>Enter room id(between 1 and 10):</label>
+            <input type="number" name="room" min="1" max="10">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    <a href="/logout">Logout</a>
+</center>
 </body>
 </html>
